@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MenuState
+{
+    MainMenu,
+    Controls,
+    Game,
+    Pause,
+    GameEnd
+}
+
 public class GameManager : MonoBehaviour
 {
     #region Singleton Code
@@ -23,17 +32,29 @@ public class GameManager : MonoBehaviour
     #endregion
 
     [SerializeField]
-    private GameObject playerBase;
+    private GameObject base1, base2;
+
+    [SerializeField]
+    private MenuState currentMenuState;
+    public MenuState CurrentMenuState { get { return currentMenuState; } }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        ChangeMenuState(MenuState.Game);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(base1 == null || base2 == null)
+		{
+            ChangeMenuState(MenuState.GameEnd);
+		}
     }
+
+    public void ChangeMenuState(MenuState newMenuState)
+	{
+        currentMenuState = newMenuState;
+	}
 }
