@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 5954741877456376263}
   - component: {fileID: 4588026928073548686}
   - component: {fileID: -8863752334018118224}
-  - component: {fileID: 746356431717261213}
+  - component: {fileID: 3353951926622675149}
   m_Layer: 7
   m_Name: Castle_Blue
   m_TagString: Untagged
@@ -112,7 +112,7 @@ Transform:
   m_GameObject: {fileID: 2972662383062802708}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.5, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -216,7 +216,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.5, y: 3}
   m_EdgeRadius: 0
---- !u!114 &746356431717261213
+--- !u!114 &3353951926622675149
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -225,8 +225,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2972662383062802708}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7800576c558fbcc499d49f13cd3185a7, type: 3}
+  m_Script: {fileID: 11500000, guid: ca236dd09b51dad459e93ed136a7741d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
   team: 0
+  spawnPrefab: {fileID: 0}
+  spawnObjectParent: {fileID: 0}
+  spawnLocationPointer: {fileID: 292570955028489447}
+  moveLaneUpInput: 0
+  moveLaneDownInput: 0
+  spawnInput: 0

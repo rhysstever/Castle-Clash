@@ -31,8 +31,13 @@ public class Unit : Targetable
         base.FixedUpdate();
     }
 
+    internal virtual bool CanMove()
+	{
+        return GameManager.instance.CurrentMenuState == MenuState.Game;
+	}
+
 	internal virtual void Move()
     {
-        
+
     }
 }

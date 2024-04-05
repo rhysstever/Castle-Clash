@@ -27,51 +27,52 @@ public class Attacker : Unit
     {
         base.FixedUpdate();
 
-        // Move if there is no target
-        if(target == null)
-            Move();
+        this.Move();
 
-        // Attacking
-        Target();
-        attackTimer += Time.deltaTime;
+        target = FindTarget();
         if(CanAttack())
             Attack();
     }
 
-    internal override void Move()
+	internal override bool CanMove()
+    {
+        return base.CanMove()
+            && target == null;
+	}
+
+	internal override void Move()
 	{
         // Do Not call base.Move()! The Attack moves differently
-        float currentMoveSpeed = moveSpeed;
-        if(GameManager.instance.CurrentMenuState != MenuState.Game)
-        {
-            currentMoveSpeed = 0f;
-        }
 
-        rb.velocity = new Vector2(moveDirection * currentMoveSpeed * Time.deltaTime, 0);
+        if(CanMove())
+            rb.velocity = new Vector2(moveDirection * moveSpeed * Time.deltaTime, 0);
+        else
+            rb.velocity = Vector2.zero;
     }
 
-    private void Target()
+    private GameObject FindTarget()
 	{
-        Vector2 direction = Vector2.right;
-        LayerMask enemyLayerMask = LayerMask.NameToLayer("RightTeam");
-        enemyLayerMask = 1 << enemyLayerMask;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, range, enemyLayerMask);
+        Vector2 direction = GetTargetDirection(team);
+        LayerMask enemyLayerMask = GetLayerMask(team);
+        LayerMask onlyEnemyLayerMask = 1 << enemyLayerMask;
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, range, onlyEnemyLayerMask);
 
         if(hit.collider != null)
-        {
-            target = hit.collider.gameObject;
-        }
+            return hit.collider.gameObject;
+        else
+            return null;
     }
 
     private bool CanAttack()
     {
-        if(target == null)
-            return false;
+        if(GameManager.instance.CurrentMenuState == MenuState.Game)
+            attackTimer += Time.deltaTime;
 
         if(attackTimer < attackSpeed)
             return false;
 
-        return true;
+        return target != null;
     }
 
     private void Attack()
@@ -79,5 +80,21 @@ public class Attacker : Unit
         Debug.Log(target.gameObject.name + " hit!");
         target.GetComponent<Targetable>().TakeDamage(damage);
         attackTimer = 0f;
+    }
+
+    private Vector2 GetTargetDirection(Team team)
+	{
+        if(team == Team.LeftTeam)
+            return Vector2.right;
+        else
+            return Vector2.left;
+	}
+
+    private LayerMask GetLayerMask(Team team)
+    {
+        if(team == Team.LeftTeam)
+            return LayerMask.NameToLayer("RightTeam");
+        else
+            return LayerMask.NameToLayer("LeftTeam");
     }
 }
