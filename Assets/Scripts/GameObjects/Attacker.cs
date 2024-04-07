@@ -9,10 +9,13 @@ public class Attacker : Unit
     [SerializeField]
     internal GameObject target;
 
+    Animator animator;
+
     // Start is called before the first frame update
     internal override void Start()
     {
         base.Start();
+        animator = GetComponent<Animator>();
         attackTimer = attackSpeed;  // Can attack right away
         target = null;
     }
@@ -27,7 +30,7 @@ public class Attacker : Unit
     {
         base.FixedUpdate();
 
-        this.Move();
+        Move();
 
         target = FindTarget();
         if(CanAttack())
@@ -36,9 +39,12 @@ public class Attacker : Unit
 
 	internal override bool CanMove()
     {
-        return base.CanMove()
+        bool canMove = base.CanMove() 
             && target == null;
-	}
+        animator.SetBool("canMove", canMove);
+
+        return canMove;
+    }
 
 	internal override void Move()
 	{
@@ -54,17 +60,20 @@ public class Attacker : Unit
 	{
         Vector2 origin = new Vector2(
             gameObject.transform.position.x,
-            gameObject.transform.position.y + 1.4f  // Offset needed to match up with actual gameObject
+            gameObject.transform.position.y + 1.5f  // Offset needed to match up with actual gameObject
             );
         Vector2 direction = GetTargetDirection(team);
         LayerMask enemyLayerMask = GetLayerMask(team);
         LayerMask onlyEnemyLayerMask = 1 << enemyLayerMask;
 
         RaycastHit2D hit = Physics2D.Raycast(origin, direction, range, onlyEnemyLayerMask);
-        Debug.DrawRay(origin, direction * range);
+		Debug.DrawRay(origin, direction * range);
 
-        if(hit.collider != null)
+		if(hit.collider != null)
+        {
+            animator.SetBool("isAttacking", true);
             return hit.collider.gameObject;
+        }
         else
             return null;
     }
@@ -74,10 +83,10 @@ public class Attacker : Unit
         if(GameManager.instance.CurrentMenuState == MenuState.Game)
             attackTimer += Time.deltaTime;
 
-        if(attackTimer < attackSpeed)
-            return false;
+        bool canAttack = attackTimer >= attackSpeed 
+            && target != null;
 
-        return target != null;
+        return canAttack;
     }
 
     private void Attack()
@@ -85,6 +94,7 @@ public class Attacker : Unit
         Debug.Log(target.gameObject.name + " hit!");
         target.GetComponent<Targetable>().TakeDamage(damage);
         attackTimer = 0f;
+        animator.SetBool("isAttacking", false);
     }
 
     private Vector2 GetTargetDirection(Team team)
