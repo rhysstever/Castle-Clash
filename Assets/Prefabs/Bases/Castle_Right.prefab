@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 2625456910519657113}
   - component: {fileID: 8910620164800947267}
   m_Layer: 8
-  m_Name: Castle_Red
+  m_Name: Castle_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,9 +230,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10
   team: 1
+  builtSprite: {fileID: 21300000, guid: 7b3897ca579c7194b9b002790323f478, type: 3}
+  destroyedSprite: {fileID: 21300000, guid: 778d284406a3f4244b694387df84feb4, type: 3}
   spawnPrefab: {fileID: 0}
   spawnObjectParent: {fileID: 0}
   spawnLocationPointer: {fileID: 1039652254926474595}
-  moveLaneUpInput: 0
-  moveLaneDownInput: 0
-  spawnInput: 0
+  moveLaneUpInputKey: 0
+  moveLaneDownInputKey: 0
+  spawnInputKey: 0

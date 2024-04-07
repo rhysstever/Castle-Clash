@@ -16,7 +16,7 @@ public class Attacker : Unit
     {
         base.Start();
         animator = GetComponent<Animator>();
-        attackTimer = attackSpeed;  // Can attack right away
+        attackTimer = 0;
         target = null;
     }
 
@@ -34,7 +34,11 @@ public class Attacker : Unit
 
         target = FindTarget();
         if(CanAttack())
-            Attack();
+        {
+            attackTimer += Time.deltaTime;
+            if(attackTimer >= attackSpeed)
+                Attack();
+        }
     }
 
 	internal override bool CanMove()
@@ -67,7 +71,7 @@ public class Attacker : Unit
         LayerMask onlyEnemyLayerMask = 1 << enemyLayerMask;
 
         RaycastHit2D hit = Physics2D.Raycast(origin, direction, range, onlyEnemyLayerMask);
-		Debug.DrawRay(origin, direction * range);
+		//Debug.DrawRay(origin, direction * range);
 
 		if(hit.collider != null)
         {
@@ -78,32 +82,13 @@ public class Attacker : Unit
             return null;
     }
 
-    private bool CanAttack()
-    {
-        if(GameManager.instance.CurrentMenuState == MenuState.Game)
-            attackTimer += Time.deltaTime;
-
-        bool canAttack = attackTimer >= attackSpeed 
-            && target != null;
-
-        return canAttack;
-    }
-
-    private void Attack()
-    {
-        Debug.Log(target.gameObject.name + " hit!");
-        target.GetComponent<Targetable>().TakeDamage(damage);
-        attackTimer = 0f;
-        animator.SetBool("isAttacking", false);
-    }
-
     private Vector2 GetTargetDirection(Team team)
-	{
+    {
         if(team == Team.LeftTeam)
             return Vector2.right;
         else
             return Vector2.left;
-	}
+    }
 
     private LayerMask GetLayerMask(Team team)
     {
@@ -111,5 +96,19 @@ public class Attacker : Unit
             return LayerMask.NameToLayer("RightTeam");
         else
             return LayerMask.NameToLayer("LeftTeam");
+    }
+
+    private bool CanAttack()
+    {
+        return GameManager.instance.CurrentMenuState == MenuState.Game
+            && target != null;
+    }
+
+    private void Attack()
+    {
+        Debug.Log(target.gameObject.name + " hit by " + gameObject.name);
+        target.GetComponent<Targetable>().TakeDamage(damage);
+        attackTimer = 0f;
+        animator.SetBool("isAttacking", false);
     }
 }

@@ -9,7 +9,7 @@ public class Spawner : Building
     [SerializeField]
     private GameObject spawnLocationPointer;
     [SerializeField]
-    private KeyCode moveLaneUpInput, moveLaneDownInput, spawnInput;
+    private KeyCode moveLaneUpInputKey, moveLaneDownInputKey, spawnInputKey;
 
     private int currentSpawnLane;
     private float spawnLocationPointerPosXOffset;
@@ -31,7 +31,7 @@ public class Spawner : Building
     {
         ChangeSpawnLocation();
 
-        if(Input.GetKeyDown(spawnInput) && CanSpawn())
+        if(Input.GetKeyDown(spawnInputKey) && CanSpawn())
             Spawn();
     }
 
@@ -41,13 +41,13 @@ public class Spawner : Building
     private void ChangeSpawnLocation()
     {
         int spawnLocation = currentSpawnLane;
-        if(Input.GetKeyDown(moveLaneUpInput))
+        if(Input.GetKeyDown(moveLaneUpInputKey))
         {
             spawnLocation--;
             currentSpawnLane = Mathf.Clamp(spawnLocation, 0, 2);
             UpdateSpawnLocationPointer();
         }
-        else if(Input.GetKeyDown(moveLaneDownInput))
+        else if(Input.GetKeyDown(moveLaneDownInputKey))
         {
             spawnLocation++;
             currentSpawnLane = Mathf.Clamp(spawnLocation, 0, 2);
@@ -69,7 +69,8 @@ public class Spawner : Building
 
     private bool CanSpawn()
     {
-        return true;
+        return GameManager.instance.CurrentMenuState == MenuState.Game
+            && !isDestroyed;
     }
 
     private void Spawn()
@@ -80,7 +81,7 @@ public class Spawner : Building
             Quaternion.identity, 
             spawnObjectParent.transform
             );
-        newUnit.name = "unit" + spawnCount;
+        newUnit.name = spawnPrefab.name + spawnCount;
 
         spawnCount++;
     }

@@ -32,13 +32,8 @@ public class Targetable : MonoBehaviour
 
     }
 
-    public void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage)
     {
         health -= damage;
-        if(health <= 0f)
-        {
-            // Object is dead
-            Destroy(gameObject);
-        }
     }
 }

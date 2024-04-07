@@ -31,7 +31,16 @@ public class Unit : Targetable
         base.FixedUpdate();
     }
 
-    internal virtual bool CanMove()
+	public override void TakeDamage(float damage)
+	{
+		base.TakeDamage(damage);
+        if(health <= 0)
+		{
+            Destroy(gameObject);
+		}
+	}
+
+	internal virtual bool CanMove()
 	{
         return GameManager.instance.CurrentMenuState == MenuState.Game;
 	}

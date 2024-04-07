@@ -182,8 +182,8 @@ MonoBehaviour:
   spawnCost: 0
   rb: {fileID: 0}
   damage: 2
-  range: 1.5
-  attackSpeed: 2
-  attackTimer: 2
+  range: 1.25
+  attackSpeed: 0.75
+  attackTimer: 0
   projectileSpeed: 0
   target: {fileID: 0}

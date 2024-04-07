@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private GameObject base1, base2;
+    private Spawner spawner1, spawner2;
 
     [SerializeField]
     private MenuState currentMenuState;
@@ -41,13 +42,15 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        spawner1 = base1.GetComponent<Spawner>();
+        spawner2 = base2.GetComponent<Spawner>();
         ChangeMenuState(MenuState.Game);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(base1 == null || base2 == null)
+        if(spawner1.IsDestroyed || spawner2.IsDestroyed)
 		{
             ChangeMenuState(MenuState.GameEnd);
 		}
