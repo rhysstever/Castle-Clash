@@ -18,11 +18,12 @@ public class Spawner : Building
     // Start is called before the first frame update
     internal override void Start()
     {
-        currentSpawnLane = 0;
-        spawnLocationPointerPosXOffset = 3;
+        currentSpawnLane = 1;
+        spawnLocationPointerPosXOffset = 2.75f;
         if(team == Team.RightTeam)
             spawnLocationPointerPosXOffset *= -1;
         spawnCount = 0;
+        UpdateSpawnLocationPointer();
     }
 
     // Update is called once per frame
@@ -60,7 +61,7 @@ public class Spawner : Building
     private void UpdateSpawnLocationPointer()
     {
         float xPos = spawnLocationPointerPosXOffset;
-        float yPos = 0.5f - currentSpawnLane * 1.0f;
+        float yPos = currentSpawnLane * -0.7f;
         Vector2 newPos = new Vector2(xPos, yPos);
         
         spawnLocationPointer.transform.localPosition = newPos;
@@ -91,6 +92,10 @@ public class Spawner : Building
     private Vector2 spawnLocationToPos()
     {
         Vector2 pos = spawnLocationPointer.transform.position;
+        if(team == Team.LeftTeam)
+            pos.x += -2.0f;
+        else
+            pos.x += 2.0f;
         pos.y -= 1.1f;
         return pos;
     }

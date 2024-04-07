@@ -52,11 +52,16 @@ public class Attacker : Unit
 
     private GameObject FindTarget()
 	{
+        Vector2 origin = new Vector2(
+            gameObject.transform.position.x,
+            gameObject.transform.position.y + 1.4f  // Offset needed to match up with actual gameObject
+            );
         Vector2 direction = GetTargetDirection(team);
         LayerMask enemyLayerMask = GetLayerMask(team);
         LayerMask onlyEnemyLayerMask = 1 << enemyLayerMask;
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, range, onlyEnemyLayerMask);
+        RaycastHit2D hit = Physics2D.Raycast(origin, direction, range, onlyEnemyLayerMask);
+        Debug.DrawRay(origin, direction * range);
 
         if(hit.collider != null)
             return hit.collider.gameObject;
