@@ -71,32 +71,12 @@ public class Attacker : Unit
         LayerMask onlyEnemyLayerMask = 1 << enemyLayerMask;
 
         RaycastHit2D hit = Physics2D.Raycast(origin, direction, range, onlyEnemyLayerMask);
-		//Debug.DrawRay(origin, direction * range);
+        //Debug.DrawRay(origin, direction * range);
 
-		if(hit.collider != null)
-        {
-            // Check validity of collider
-            if(hit.collider.gameObject != null)
-            {
-                GameObject hitObject = hit.collider.gameObject;
+        GameObject target = GetValidTarget(hit);
 
-                if(hitObject.GetComponent<Building>() != null)
-				{
-                    // If the collision is with a building, make sure it is not already destroyed
-                    if(hitObject.GetComponent<Building>().IsDestroyed)
-					{
-                        animator.SetBool("isAttacking", false);
-                        return null;
-                    }
-				}
-
-                animator.SetBool("isAttacking", true);
-                return hitObject;
-            }
-        }
-
-        animator.SetBool("isAttacking", false);
-        return null;
+        animator.SetBool("isAttacking", target != null);
+        return target;
     }
 
     private Vector2 GetTargetDirection(Team team)
@@ -113,6 +93,28 @@ public class Attacker : Unit
             return LayerMask.NameToLayer("RightTeam");
         else
             return LayerMask.NameToLayer("LeftTeam");
+    }
+
+    private GameObject GetValidTarget(RaycastHit2D hit)
+	{
+        if(hit.collider != null)
+        {
+            if(hit.collider.gameObject != null)
+            {
+                GameObject hitObject = hit.collider.gameObject;
+
+                if(hitObject.GetComponent<Building>() != null)
+                {
+                    // If the collision is with a building, make sure it is not already destroyed
+                    if(hitObject.GetComponent<Building>().IsDestroyed)
+                        return null;
+                }
+
+                return hitObject;
+            }
+        }
+
+        return null;
     }
 
     private bool CanAttack()
