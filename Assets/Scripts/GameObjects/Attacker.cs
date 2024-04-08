@@ -75,11 +75,28 @@ public class Attacker : Unit
 
 		if(hit.collider != null)
         {
-            animator.SetBool("isAttacking", true);
-            return hit.collider.gameObject;
+            // Check validity of collider
+            if(hit.collider.gameObject != null)
+            {
+                GameObject hitObject = hit.collider.gameObject;
+
+                if(hitObject.GetComponent<Building>() != null)
+				{
+                    // If the collision is with a building, make sure it is not already destroyed
+                    if(hitObject.GetComponent<Building>().IsDestroyed)
+					{
+                        animator.SetBool("isAttacking", false);
+                        return null;
+                    }
+				}
+
+                animator.SetBool("isAttacking", true);
+                return hitObject;
+            }
         }
-        else
-            return null;
+
+        animator.SetBool("isAttacking", false);
+        return null;
     }
 
     private Vector2 GetTargetDirection(Team team)
