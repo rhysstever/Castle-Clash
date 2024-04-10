@@ -17,8 +17,7 @@ public class GameManager : MonoBehaviour
     // A public reference to this script
     public static GameManager instance = null;
 
-    // Awake is called even before start 
-    // (I think its at the very beginning of runtime)
+    // Awake is called even before start
     private void Awake()
     {
         // If the reference for this script is null, assign it this script
@@ -34,6 +33,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject base1, base2;
     private Spawner spawner1, spawner2;
+    [SerializeField]
+    private float baseMaxHealth;
+    public float BaseMaxHealth { get { return baseMaxHealth; } }
 
     [SerializeField]
     private MenuState currentMenuState;
@@ -50,14 +52,23 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(spawner1.IsDestroyed || spawner2.IsDestroyed)
-		{
-            ChangeMenuState(MenuState.GameEnd);
-		}
+        
     }
 
     public void ChangeMenuState(MenuState newMenuState)
 	{
         currentMenuState = newMenuState;
+        UIManager.instance.ChangeUIState(newMenuState);
 	}
+
+	public void UpdateBaseHealth()
+	{
+        float leftBaseHpPercentage = spawner1.health / baseMaxHealth;
+        float rightBaseHpPercentage = spawner2.health / baseMaxHealth;
+        UIManager.instance.UpdateBaseHealthUI(leftBaseHpPercentage, rightBaseHpPercentage);
+        if(spawner1.IsDestroyed || spawner2.IsDestroyed)
+        {
+            ChangeMenuState(MenuState.GameEnd);
+        }
+    }
 }

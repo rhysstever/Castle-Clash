@@ -18,6 +18,7 @@ public class Spawner : Building
     // Start is called before the first frame update
     internal override void Start()
     {
+        health = GameManager.instance.BaseMaxHealth;
         currentSpawnLane = 1;
         spawnLocationPointerPosXOffset = 2.75f;
         if(team == Team.RightTeam)
@@ -86,11 +87,17 @@ public class Spawner : Building
         spawnCount++;
     }
 
-    /// <summary>
-    /// Uses the selected spawn lane to get the spawn location
-    /// </summary>
-    /// <returns>A Vector2 of where a unit will spawn</returns>
-    private Vector2 spawnLocationToPos()
+	public override void TakeDamage(float damage)
+	{
+		base.TakeDamage(damage);
+        GameManager.instance.UpdateBaseHealth();
+	}
+
+	/// <summary>
+	/// Uses the selected spawn lane to get the spawn location
+	/// </summary>
+	/// <returns>A Vector2 of where a unit will spawn</returns>
+	private Vector2 spawnLocationToPos()
     {
         Vector2 pos = spawnLocationPointer.transform.position;
         if(team == Team.LeftTeam)
