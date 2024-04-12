@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour
     #endregion
 
     [SerializeField]
-    private GameObject base1, base2;
     private Spawner spawner1, spawner2;
     [SerializeField]
     private float baseMaxHealth;
@@ -44,8 +43,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        spawner1 = base1.GetComponent<Spawner>();
-        spawner2 = base2.GetComponent<Spawner>();
         ChangeMenuState(MenuState.Game);
     }
 

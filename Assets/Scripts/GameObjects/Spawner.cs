@@ -5,11 +5,13 @@ using UnityEngine;
 public class Spawner : Building
 {
     [SerializeField]
-    private GameObject spawnPrefab, spawnObjectParent;
+    private GameObject spawnLocationPointer, spawnObjectParent;
     [SerializeField]
-    private GameObject spawnLocationPointer;
+    private KeyCode moveLaneUpInputKey, moveLaneDownInputKey;
     [SerializeField]
-    private KeyCode moveLaneUpInputKey, moveLaneDownInputKey, spawnInputKey;
+    private List<KeyCode> spawnKeys;
+    [SerializeField]
+    private List<GameObject> spawnPrefabs;
 
     private int currentSpawnLane;
     private float spawnLocationPointerPosXOffset;
@@ -19,11 +21,13 @@ public class Spawner : Building
     internal override void Start()
     {
         health = GameManager.instance.BaseMaxHealth;
+
         currentSpawnLane = 1;
         spawnLocationPointerPosXOffset = 2.75f;
         if(team == Team.RightTeam)
             spawnLocationPointerPosXOffset *= -1;
         spawnCount = 0;
+
         UpdateSpawnLocationPointer();
     }
 
@@ -32,8 +36,11 @@ public class Spawner : Building
     {
         ChangeSpawnLocation();
 
-        if(Input.GetKeyDown(spawnInputKey) && CanSpawn())
-            Spawn();
+        for(int i = 0; i < spawnKeys.Count; i++)
+        {
+            if(Input.GetKeyDown(spawnKeys[i]) && CanSpawn())
+                Spawn(spawnPrefabs[i]);
+        }
     }
 
     /// <summary>
@@ -74,7 +81,7 @@ public class Spawner : Building
             && !isDestroyed;
     }
 
-    private void Spawn()
+    private void Spawn(GameObject spawnPrefab)
     {
         GameObject newUnit = Instantiate(
             spawnPrefab, 

@@ -24,13 +24,12 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private Canvas canvas;
-
+    // UI Parent Objects
     [SerializeField]
     private GameObject mainMenuUIParent, controlsUIParent, gameUIParent, pauseUIParent, gameEndUIParent;
-
+    // Top Game UI Elements
     [SerializeField]
     private Button settingsButton;
-
     [SerializeField]
     private GameObject leftTeamHealthBarUI, rightTeamHealthBarUI;
 
@@ -43,7 +42,8 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(rightTeamHealthBarUI.transform.localScale);
+        if(Input.GetKeyDown(KeyCode.Alpha5))
+            GameManager.instance.ChangeMenuState(MenuState.Pause);
     }
 
     private void SetupButtons()

@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: -8863752334018118224}
   - component: {fileID: 3353951926622675149}
   m_Layer: 7
-  m_Name: Castle_Left
+  m_Name: leftCastle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
