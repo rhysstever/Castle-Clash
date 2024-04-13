@@ -6,6 +6,7 @@ public class Unit : Targetable
 {
     [SerializeField]
     internal float moveSpeed, moveDirection, spawnCost;
+    public float SpawnCost { get { return spawnCost; } }
     [SerializeField]
     public Rigidbody2D rb;
 

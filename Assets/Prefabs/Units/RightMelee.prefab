@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2253911629886400664, guid: 09b5655098045e64bbc6de781dde310e, type: 3}
       propertyPath: m_Name
-      value: Goblin
+      value: RightMelee
       objectReference: {fileID: 0}
     - target: {fileID: -2253911629886400664, guid: 09b5655098045e64bbc6de781dde310e, type: 3}
       propertyPath: m_Layer
@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3626916397498700004, guid: 09b5655098045e64bbc6de781dde310e, type: 3}
       propertyPath: m_SortingOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3626916397498700004, guid: 09b5655098045e64bbc6de781dde310e, type: 3}
       propertyPath: m_SpriteSortPoint
@@ -179,7 +179,7 @@ MonoBehaviour:
   team: 1
   moveSpeed: 50
   moveDirection: 0
-  spawnCost: 0
+  spawnCost: 3
   rb: {fileID: 0}
   damage: 2
   range: 1.25

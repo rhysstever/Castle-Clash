@@ -31,11 +31,14 @@ public class GameManager : MonoBehaviour
     #endregion
 
     [SerializeField]
-    private Spawner spawner1, spawner2;
+    private Spawner leftSpawner, rightSpawner;
+    [SerializeField]
+    private Producer leftMine, rightMine;
+    [SerializeField]
+    private float leftTeamGold, rightTeamGold;
     [SerializeField]
     private float baseMaxHealth;
     public float BaseMaxHealth { get { return baseMaxHealth; } }
-
     [SerializeField]
     private MenuState currentMenuState;
     public MenuState CurrentMenuState { get { return currentMenuState; } }
@@ -44,6 +47,12 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         ChangeMenuState(MenuState.Game);
+
+
+        UIManager.instance.UpdateTeamGold(
+            GetTeamGold(Team.LeftTeam),
+            GetTeamGold(Team.RightTeam)
+        );
     }
 
     // Update is called once per frame
@@ -60,12 +69,70 @@ public class GameManager : MonoBehaviour
 
 	public void UpdateBaseHealth()
 	{
-        float leftBaseHpPercentage = spawner1.health / baseMaxHealth;
-        float rightBaseHpPercentage = spawner2.health / baseMaxHealth;
+        float leftBaseHpPercentage = leftSpawner.health / baseMaxHealth;
+        float rightBaseHpPercentage = rightSpawner.health / baseMaxHealth;
         UIManager.instance.UpdateBaseHealthUI(leftBaseHpPercentage, rightBaseHpPercentage);
-        if(spawner1.IsDestroyed || spawner2.IsDestroyed)
+        if(leftSpawner.IsDestroyed || rightSpawner.IsDestroyed)
         {
             ChangeMenuState(MenuState.GameEnd);
         }
+    }
+
+    public Spawner GetTeamSpawner(Team team)
+	{
+        if(team == Team.LeftTeam)
+            return leftSpawner;
+        else 
+            return rightSpawner;
+    }
+
+    public Producer GetTeamMine(Team team)
+    {
+        if(team == Team.LeftTeam)
+            return leftMine;
+        else
+            return rightMine;
+    }
+
+    public float GetTeamGold(Team team)
+    {
+        if(team == Team.LeftTeam)
+            return leftTeamGold;
+        else
+            return rightTeamGold;
+    }
+
+    public void AddGold(Team team, float amount)
+	{
+        if(team == Team.LeftTeam)
+		{
+            leftTeamGold += amount;
+            for(int i = 0; i < amount; i++)
+                leftMine.SpawnResource();
+		}
+        else
+		{
+            rightTeamGold += amount;
+            for(int i = 0; i < amount; i++)
+                rightMine.SpawnResource();
+        }
+
+        UIManager.instance.UpdateTeamGold(
+            GetTeamGold(Team.LeftTeam), 
+            GetTeamGold(Team.RightTeam)
+        );
+    }
+
+    public void SpendGold(Team team, float amount)
+    {
+        if(team == Team.LeftTeam)
+            leftTeamGold -= amount;
+        else
+            rightTeamGold -= amount;
+
+        UIManager.instance.UpdateTeamGold(
+            GetTeamGold(Team.LeftTeam), 
+            GetTeamGold(Team.RightTeam)
+        );
     }
 }

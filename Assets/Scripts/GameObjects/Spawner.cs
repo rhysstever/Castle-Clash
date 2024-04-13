@@ -15,30 +15,37 @@ public class Spawner : Building
 
     private int currentSpawnLane;
     private float spawnLocationPointerPosXOffset;
-    private int spawnCount;
+    private int attackerSpawnCount, workerSpawnCount;
 
     // Start is called before the first frame update
     internal override void Start()
     {
+        base.Start();
         health = GameManager.instance.BaseMaxHealth;
 
         currentSpawnLane = 1;
         spawnLocationPointerPosXOffset = 2.75f;
         if(team == Team.RightTeam)
             spawnLocationPointerPosXOffset *= -1;
-        spawnCount = 0;
+        attackerSpawnCount = 0;
+        workerSpawnCount = 0;
 
         UpdateSpawnLocationPointer();
+
+        // Spawn a worker for free
+        Spawn(spawnPrefabs[2], true);
     }
 
     // Update is called once per frame
     internal override void Update()
     {
+        base.Update();
         ChangeSpawnLocation();
 
         for(int i = 0; i < spawnKeys.Count; i++)
         {
-            if(Input.GetKeyDown(spawnKeys[i]) && CanSpawn())
+            if(Input.GetKeyDown(spawnKeys[i]) 
+                && CanSpawn(spawnPrefabs[i]))
                 Spawn(spawnPrefabs[i]);
         }
     }
@@ -75,26 +82,47 @@ public class Spawner : Building
         spawnLocationPointer.transform.localPosition = newPos;
     }
 
-    private bool CanSpawn()
+    private bool CanSpawn(GameObject spawnPrefab)
     {
         return GameManager.instance.CurrentMenuState == MenuState.Game
-            && !isDestroyed;
+            && !isDestroyed
+            && GameManager.instance.GetTeamGold(team) >= spawnPrefab.GetComponent<Unit>().SpawnCost;
     }
 
-    private void Spawn(GameObject spawnPrefab)
+    private void Spawn(GameObject spawnPrefab, bool free = false)
     {
+        if(!free)
+            GameManager.instance.SpendGold(team, spawnPrefab.GetComponent<Unit>().SpawnCost);
+        if(spawnPrefab == spawnPrefabs[2])
+		{
+            Vector2 workerSpawnLocation = gameObject.transform.position;
+            workerSpawnLocation.y += 0.5f;
+            
+            SpawnUnit(spawnPrefab, workerSpawnLocation, workerSpawnCount);
+            workerSpawnCount++;
+        }
+        else
+		{
+            SpawnUnit(spawnPrefab, spawnLocationToPos(), attackerSpawnCount);
+            attackerSpawnCount++;
+        } 
+    }
+
+    private void SpawnUnit(GameObject spawnPrefab, Vector2 spawnPos, int currentCount) 
+    {
+        Vector2 workerSpawnLocation = gameObject.transform.position;
+        workerSpawnLocation.y += 0f;
+
         GameObject newUnit = Instantiate(
-            spawnPrefab, 
-            spawnLocationToPos(), 
-            Quaternion.identity, 
+            spawnPrefab,
+            spawnPos,
+            Quaternion.identity,
             spawnObjectParent.transform
             );
-        newUnit.name = spawnPrefab.name + spawnCount;
-
-        spawnCount++;
+        newUnit.name = spawnPrefab.name + currentCount;
     }
 
-	public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage)
 	{
 		base.TakeDamage(damage);
         GameManager.instance.UpdateBaseHealth();

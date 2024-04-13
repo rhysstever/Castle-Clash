@@ -159,7 +159,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 7f9dd7b53830f5643bbfd026d343d064, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -232,9 +232,9 @@ MonoBehaviour:
   team: 0
   builtSprite: {fileID: 21300000, guid: 7f9dd7b53830f5643bbfd026d343d064, type: 3}
   destroyedSprite: {fileID: 21300000, guid: 778d284406a3f4244b694387df84feb4, type: 3}
-  spawnPrefab: {fileID: 0}
-  spawnObjectParent: {fileID: 0}
   spawnLocationPointer: {fileID: 292570955028489447}
+  spawnObjectParent: {fileID: 0}
   moveLaneUpInputKey: 0
   moveLaneDownInputKey: 0
-  spawnInputKey: 0
+  spawnKeys: 
+  spawnPrefabs: []

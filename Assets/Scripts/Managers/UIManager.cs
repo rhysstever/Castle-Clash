@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,6 +33,8 @@ public class UIManager : MonoBehaviour
     private Button settingsButton;
     [SerializeField]
     private GameObject leftTeamHealthBarUI, rightTeamHealthBarUI;
+    [SerializeField]
+    private TMP_Text leftTeamGoldText, rightTeamGoldText;
 
     // Start is called before the first frame update
     void Start()
@@ -86,5 +89,11 @@ public class UIManager : MonoBehaviour
         rightTeamHealthBarUI.transform.localScale = new Vector2(
             rightTeamBaseHpPercentage,
             rightTeamHealthBarUI.transform.localScale.y);
+    }
+
+	public void UpdateTeamGold(float leftTeamGoldAmount, float rightTeamGoldAmount)
+	{
+        leftTeamGoldText.text = ((int)leftTeamGoldAmount).ToString();
+        rightTeamGoldText.text = ((int)rightTeamGoldAmount).ToString();
     }
 }

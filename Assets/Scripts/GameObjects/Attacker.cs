@@ -9,7 +9,7 @@ public class Attacker : Unit
     [SerializeField]
     internal GameObject target;
 
-    Animator animator;
+    private Animator animator;
 
     // Start is called before the first frame update
     internal override void Start()

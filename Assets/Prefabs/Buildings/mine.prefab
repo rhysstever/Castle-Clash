@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6067034365748151032}
   - component: {fileID: 4992595732157306940}
-  - component: {fileID: -6875932637917948748}
+  - component: {fileID: 2031687756298960080}
+  - component: {fileID: 2447302759075822231}
   m_Layer: 0
   m_Name: mine
   m_TagString: Untagged
@@ -27,9 +28,9 @@ Transform:
   m_GameObject: {fileID: 6610607254328318859}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.86, y: 4.27, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -85,7 +86,52 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-6875932637917948748
+--- !u!61 &2031687756298960080
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6610607254328318859}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3, y: 2}
+    newSize: {x: 3, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 1.5}
+  m_EdgeRadius: 0
+--- !u!114 &2447302759075822231
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,10 +140,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 6610607254328318859}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7800576c558fbcc499d49f13cd3185a7, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d4dff4eb671b2a4d8b1a3ea3d3b797d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   health: 5
   team: 0
   builtSprite: {fileID: 21300000, guid: e042ec63975e4f44d927e094b68d629e, type: 3}
   destroyedSprite: {fileID: 21300000, guid: 285740e791eb5214e9f763ac07dff8a8, type: 3}
+  producedResource: {fileID: 3846721405067920919, guid: b84ec48ac98996b4c8162e376e0199ef, type: 3}
+  produceRate: 1
+  produceAmountPerWorker: 1
+  xBounds: 0
+  yBounds: 0
