@@ -80,6 +80,9 @@ public class Producer : Building
 
     public void DespawnGold(int amount)
 	{
-
+        for(int i = amount - 1; i >= 0; i--)
+		{
+            Destroy(gameObject.transform.GetChild(i).gameObject);
+		}
 	}
 }

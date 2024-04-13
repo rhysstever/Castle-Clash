@@ -126,9 +126,15 @@ public class GameManager : MonoBehaviour
     public void SpendGold(Team team, float amount)
     {
         if(team == Team.LeftTeam)
+		{
             leftTeamGold -= amount;
+            leftMine.DespawnGold((int)amount);
+        }
         else
+		{
             rightTeamGold -= amount;
+            rightMine.DespawnGold((int)amount);
+        }
 
         UIManager.instance.UpdateTeamGold(
             GetTeamGold(Team.LeftTeam), 

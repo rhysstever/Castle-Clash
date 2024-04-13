@@ -14903,8 +14903,8 @@ MonoBehaviour:
   rightSpawner: {fileID: 1068377451}
   leftMine: {fileID: 2077702331}
   rightMine: {fileID: 1769429032}
-  leftTeamGold: 5
-  rightTeamGold: 5
+  leftTeamGold: 0
+  rightTeamGold: 0
   baseMaxHealth: 10
   currentMenuState: 0
 --- !u!114 &1578132247
