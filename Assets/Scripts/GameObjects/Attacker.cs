@@ -125,7 +125,6 @@ public class Attacker : Unit
 
     private void Attack()
     {
-        Debug.Log(target.gameObject.name + " hit by " + gameObject.name);
         target.GetComponent<Targetable>().TakeDamage(damage);
         attackTimer = 0f;
         animator.SetBool("isAttacking", false);

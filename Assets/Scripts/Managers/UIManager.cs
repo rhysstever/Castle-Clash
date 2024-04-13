@@ -31,6 +31,11 @@ public class UIManager : MonoBehaviour
     // Main Menu Elements
     [SerializeField]
     private Button playButton, controlsButton, quitGameButton;
+    // Controls Elements
+    [SerializeField]
+    private GameObject controlsMenu1, controlsMenu2;
+    [SerializeField]
+    private Button controlsNextButton, controlsPreviousMenuButton;
     // Game Top UI Elements
     [SerializeField]
     private Button settingsButton;
@@ -42,6 +47,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Button resumeGameButton, pauseToControlsButton, pauseToMainMenuButton;
     // Game End Elements
+    [SerializeField]
+    private TMP_Text gameEndTitleText;
     [SerializeField]
     private Button gameEndToMainMenuButton;
 
@@ -63,6 +70,8 @@ public class UIManager : MonoBehaviour
         playButton.onClick.AddListener(() => GameManager.instance.ChangeMenuState(MenuState.Game));
         controlsButton.onClick.AddListener(() => GameManager.instance.ChangeMenuState(MenuState.Controls));
         quitGameButton.onClick.AddListener(() => Application.Quit());
+        controlsNextButton.onClick.AddListener(() => IncrementControlsMenu());
+        controlsPreviousMenuButton.onClick.AddListener(() => GameManager.instance.PreviousMenuState());
         settingsButton.onClick.AddListener(() => GameManager.instance.ChangeMenuState(MenuState.Pause));
         resumeGameButton.onClick.AddListener(() => GameManager.instance.ChangeMenuState(MenuState.Game));
         pauseToControlsButton.onClick.AddListener(() => GameManager.instance.ChangeMenuState(MenuState.Controls));
@@ -84,6 +93,8 @@ public class UIManager : MonoBehaviour
                 break;
             case MenuState.Controls:
                 controlsUIParent.SetActive(true);
+                controlsMenu1.SetActive(true);
+                controlsMenu2.SetActive(false);
                 break;
             case MenuState.Game:
                 gameUIParent.SetActive(true);
@@ -93,8 +104,18 @@ public class UIManager : MonoBehaviour
                 break;
             case MenuState.GameEnd:
                 gameEndUIParent.SetActive(true);
+                if(GameManager.instance.GetTeamSpawner(Team.LeftTeam).IsDestroyed)
+                    gameEndTitleText.text = "Goblins \nWin!";
+                else if(GameManager.instance.GetTeamSpawner(Team.RightTeam).IsDestroyed)
+                    gameEndTitleText.text = "Knights \nWin!";
                 break;
         }
+	}
+
+    private void IncrementControlsMenu()
+	{
+        controlsMenu1.SetActive(false);
+        controlsMenu2.SetActive(true);
 	}
 
     public void UpdateBaseHealthUI(float leftTeamBaseHpPercentage, float rightTeamBaseHpPercentage)

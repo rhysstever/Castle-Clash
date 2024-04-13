@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
         {
             case MenuState.MainMenu:
                 menuStates.Clear();
+                Reset();
                 break;
             case MenuState.Controls:
                 break;
@@ -93,6 +94,29 @@ public class GameManager : MonoBehaviour
         UIManager.instance.ChangeUIState(newMenuState);
 	}
 
+    public void PreviousMenuState()
+	{
+        menuStates.Pop();
+        ChangeMenuState(menuStates.Peek());
+    }
+
+	public void Reset()
+    {
+        leftTeamGold = 0;
+        rightTeamGold = 0;
+
+        leftSpawner.Reset(baseMaxHealth);
+        rightSpawner.Reset(baseMaxHealth);
+        leftMine.Reset(baseMaxHealth);
+        rightMine.Reset(baseMaxHealth);
+
+        UpdateBaseHealth();
+        UIManager.instance.UpdateTeamGold(
+            GetTeamGold(Team.LeftTeam),
+            GetTeamGold(Team.RightTeam)
+        );
+    }
+
 	public void UpdateBaseHealth()
 	{
         float leftBaseHpPercentage = leftSpawner.health / baseMaxHealth;
@@ -102,7 +126,7 @@ public class GameManager : MonoBehaviour
         {
             leftMine.TakeDamage(1000);
             ChangeMenuState(MenuState.GameEnd);
-        } else
+        } else if(rightSpawner.IsDestroyed)
         {
             rightMine.TakeDamage(1000);
             ChangeMenuState(MenuState.GameEnd);

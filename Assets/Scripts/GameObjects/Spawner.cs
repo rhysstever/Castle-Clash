@@ -5,7 +5,7 @@ using UnityEngine;
 public class Spawner : Building
 {
     [SerializeField]
-    private GameObject spawnLocationPointer, spawnObjectParent;
+    private GameObject spawnLocationPointer;
     [SerializeField]
     private KeyCode moveLaneUpInputKey, moveLaneDownInputKey;
     [SerializeField]
@@ -91,6 +91,7 @@ public class Spawner : Building
     {
         if(!free)
             GameManager.instance.SpendGold(team, spawnPrefab.GetComponent<Unit>().SpawnCost);
+
         if(spawnPrefab == spawnPrefabs[2])
 		{
             Vector2 workerSpawnLocation = gameObject.transform.position;
@@ -115,9 +116,10 @@ public class Spawner : Building
             spawnPrefab,
             spawnPos,
             Quaternion.identity,
-            spawnObjectParent.transform
+            transform.GetChild(1)
             );
         newUnit.name = spawnPrefab.name + currentCount;
+        newUnit.transform.localScale = new Vector3(0.66f, 0.66f);
     }
 
     public override void TakeDamage(float damage)
@@ -155,6 +157,7 @@ public class Spawner : Building
         workerSpawnCount = 0;
 
         UpdateSpawnLocationPointer();
-
+        for(int i = transform.GetChild(1).childCount - 1; i >= 0; i--)
+            Destroy(transform.GetChild(1).GetChild(i).gameObject);
     }
 }

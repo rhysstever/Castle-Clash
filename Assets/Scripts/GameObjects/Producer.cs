@@ -92,5 +92,7 @@ public class Producer : Building
 
         workerCount = 0;
         produceTimer = 0f;
+        for(int i = gameObject.transform.childCount - 1; i >= 0; i--)
+            Destroy(gameObject.transform.GetChild(i).gameObject);
     }
 }
