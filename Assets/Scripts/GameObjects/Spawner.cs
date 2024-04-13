@@ -23,17 +23,15 @@ public class Spawner : Building
         base.Start();
         health = GameManager.instance.BaseMaxHealth;
 
-        currentSpawnLane = 1;
         spawnLocationPointerPosXOffset = 2.75f;
         if(team == Team.RightTeam)
             spawnLocationPointerPosXOffset *= -1;
+        
+        currentSpawnLane = 1;
         attackerSpawnCount = 0;
         workerSpawnCount = 0;
 
         UpdateSpawnLocationPointer();
-
-        // Spawn a worker for free
-        Spawn(spawnPrefabs[2], true);
     }
 
     // Update is called once per frame
@@ -141,5 +139,22 @@ public class Spawner : Building
             pos.x += 2.0f;
         pos.y -= 1.1f;
         return pos;
+    }
+
+    public void SpawnFirstBuilder()
+    {
+        // Spawn a worker for free
+        Spawn(spawnPrefabs[2], true);
+    }
+
+	public override void Reset(float health)
+	{
+		base.Reset(health);
+        currentSpawnLane = 1;
+        attackerSpawnCount = 0;
+        workerSpawnCount = 0;
+
+        UpdateSpawnLocationPointer();
+
     }
 }

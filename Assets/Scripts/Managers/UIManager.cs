@@ -28,13 +28,22 @@ public class UIManager : MonoBehaviour
     // UI Parent Objects
     [SerializeField]
     private GameObject mainMenuUIParent, controlsUIParent, gameUIParent, pauseUIParent, gameEndUIParent;
-    // Top Game UI Elements
+    // Main Menu Elements
+    [SerializeField]
+    private Button playButton, controlsButton, quitGameButton;
+    // Game Top UI Elements
     [SerializeField]
     private Button settingsButton;
     [SerializeField]
     private GameObject leftTeamHealthBarUI, rightTeamHealthBarUI;
     [SerializeField]
     private TMP_Text leftTeamGoldText, rightTeamGoldText;
+    // Pause Menu Elements
+    [SerializeField]
+    private Button resumeGameButton, pauseToControlsButton, pauseToMainMenuButton;
+    // Game End Elements
+    [SerializeField]
+    private Button gameEndToMainMenuButton;
 
     // Start is called before the first frame update
     void Start()
@@ -50,8 +59,15 @@ public class UIManager : MonoBehaviour
     }
 
     private void SetupButtons()
-	{
+    {
+        playButton.onClick.AddListener(() => GameManager.instance.ChangeMenuState(MenuState.Game));
+        controlsButton.onClick.AddListener(() => GameManager.instance.ChangeMenuState(MenuState.Controls));
+        quitGameButton.onClick.AddListener(() => Application.Quit());
         settingsButton.onClick.AddListener(() => GameManager.instance.ChangeMenuState(MenuState.Pause));
+        resumeGameButton.onClick.AddListener(() => GameManager.instance.ChangeMenuState(MenuState.Game));
+        pauseToControlsButton.onClick.AddListener(() => GameManager.instance.ChangeMenuState(MenuState.Controls));
+        pauseToMainMenuButton.onClick.AddListener(() => GameManager.instance.ChangeMenuState(MenuState.MainMenu));
+        gameEndToMainMenuButton.onClick.AddListener(() => GameManager.instance.ChangeMenuState(MenuState.MainMenu));
     }
 
     public void ChangeUIState(MenuState newMenuState)

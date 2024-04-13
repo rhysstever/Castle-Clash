@@ -42,12 +42,13 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private MenuState currentMenuState;
     public MenuState CurrentMenuState { get { return currentMenuState; } }
+    private Stack<MenuState> menuStates;
 
     // Start is called before the first frame update
     void Start()
     {
-        ChangeMenuState(MenuState.Game);
-
+        menuStates = new Stack<MenuState>();
+        ChangeMenuState(MenuState.MainMenu);
 
         UIManager.instance.UpdateTeamGold(
             GetTeamGold(Team.LeftTeam),
@@ -63,7 +64,32 @@ public class GameManager : MonoBehaviour
 
     public void ChangeMenuState(MenuState newMenuState)
 	{
-        currentMenuState = newMenuState;
+        switch(newMenuState)
+        {
+            case MenuState.MainMenu:
+                menuStates.Clear();
+                break;
+            case MenuState.Controls:
+                break;
+            case MenuState.Game:
+                if(currentMenuState == MenuState.Pause)
+				{
+                    menuStates.Pop();
+				}
+                else
+				{
+                    leftSpawner.SpawnFirstBuilder();
+                    rightSpawner.SpawnFirstBuilder();
+                }
+                break;
+            case MenuState.Pause:
+                break;
+            case MenuState.GameEnd:
+                break;
+        }
+
+        menuStates.Push(newMenuState);
+        currentMenuState = menuStates.Peek();
         UIManager.instance.ChangeUIState(newMenuState);
 	}
 
@@ -72,8 +98,13 @@ public class GameManager : MonoBehaviour
         float leftBaseHpPercentage = leftSpawner.health / baseMaxHealth;
         float rightBaseHpPercentage = rightSpawner.health / baseMaxHealth;
         UIManager.instance.UpdateBaseHealthUI(leftBaseHpPercentage, rightBaseHpPercentage);
-        if(leftSpawner.IsDestroyed || rightSpawner.IsDestroyed)
+        if(leftSpawner.IsDestroyed)
         {
+            leftMine.TakeDamage(1000);
+            ChangeMenuState(MenuState.GameEnd);
+        } else
+        {
+            rightMine.TakeDamage(1000);
             ChangeMenuState(MenuState.GameEnd);
         }
     }

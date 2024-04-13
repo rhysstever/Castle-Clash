@@ -36,4 +36,9 @@ public class Targetable : MonoBehaviour
     {
         health -= damage;
     }
+
+    public virtual void Reset(float health)
+	{
+		this.health = health;
+	}
 }

@@ -35,4 +35,9 @@ public class Building : Targetable
             GetComponent<SpriteRenderer>().sprite = destroyedSprite;
         }
     }
+
+    public override void Reset(float health)
+	{
+        base.Reset(health);
+	}
 }

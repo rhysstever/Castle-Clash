@@ -40,12 +40,13 @@ public class Worker : Unit
 
     internal override void Move()
 	{
-        Vector2 moveDirection = destination.transform.position;
-        moveDirection.y -= 2f;
-        moveDirection -= new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
-        Vector2 move = moveSpeed * Time.deltaTime * moveDirection.normalized;
         if(CanMove())
-		{
+        {
+            Vector2 moveDirection = destination.transform.position;
+            moveDirection.y -= 2f;
+            moveDirection -= new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
+            Vector2 move = moveSpeed * Time.deltaTime * moveDirection.normalized;
+
             rb.velocity = move;
             CheckArrivalAtDestination();
 		}

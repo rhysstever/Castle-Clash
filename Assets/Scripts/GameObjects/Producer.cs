@@ -85,4 +85,12 @@ public class Producer : Building
             Destroy(gameObject.transform.GetChild(i).gameObject);
 		}
 	}
+
+	public override void Reset(float health)
+	{
+		base.Reset(health);
+
+        workerCount = 0;
+        produceTimer = 0f;
+    }
 }
