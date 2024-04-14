@@ -27,6 +27,7 @@ public class RangedAttacker : Attacker
             gameObject.transform.position.x,
             gameObject.transform.position.y + 0.25f
             );
+        Vector2 shotDirection = new Vector2(moveDirection, 0);
 
         GameObject parent = GameManager.instance.GetTeamProjectileParent(team);
 
@@ -41,6 +42,11 @@ public class RangedAttacker : Attacker
             Quaternion.identity,
             parent.transform
             );
-        newShot.GetComponent<Projectile>().SetInitialValues(team, damage, target.transform.position);
+        newShot.GetComponent<Projectile>().SetInitialValues(
+            team, 
+            damage,
+            shotDirection,
+            range + 0.25f
+            );
 	}
 }

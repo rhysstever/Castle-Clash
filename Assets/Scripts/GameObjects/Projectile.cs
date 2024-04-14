@@ -12,12 +12,16 @@ public class Projectile : MonoBehaviour
     private Team team;
     private float damage;
     [SerializeField]
-    private Vector3 targetPos;
+    private Vector3 moveDirection;
+    private float range;
+
+    private Vector3 startingPos;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        startingPos = transform.position;
     }
 
     // Update is called once per frame
@@ -40,10 +44,12 @@ public class Projectile : MonoBehaviour
 	{
         if(CanMove())
 		{
-            Vector2 moveDirection = targetPos - gameObject.transform.position;   
-            rb.velocity = projectileSpeed * Time.deltaTime * moveDirection.normalized;
-            
-            if(Vector2.Distance(gameObject.transform.position, targetPos) < 0.05f)
+            Vector2 move = projectileSpeed * Time.deltaTime * moveDirection.normalized;
+            rb.velocity = move;
+
+            Vector2 totalMoveVec = transform.position - startingPos;
+            float totalMove = Mathf.Abs(totalMoveVec.magnitude);
+            if(totalMove > range)
                 Destroy(gameObject);
         }
         else
@@ -56,9 +62,6 @@ public class Projectile : MonoBehaviour
 	{
 		if(collision.gameObject != null)
         {
-            if(team == Team.LeftTeam)
-                Debug.Log(gameObject.name + " hits " + collision.gameObject.name);
-
             if(collision.gameObject.GetComponent<Targetable>() != null
                 && collision.gameObject.GetComponent<Targetable>().team != team
                 && (collision.gameObject.GetComponent<Building>() != null
@@ -70,10 +73,11 @@ public class Projectile : MonoBehaviour
         }
 	}
 
-	public void SetInitialValues(Team team, float damage, Vector2 targetPos)
+	public void SetInitialValues(Team team, float damage, Vector2 moveDirection, float range)
 	{
         this.team = team;
         this.damage = damage;
-		this.targetPos = targetPos;
+        this.moveDirection = moveDirection;
+        this.range = range;
 	}
 }

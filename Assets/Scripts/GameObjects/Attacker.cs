@@ -130,7 +130,11 @@ public class Attacker : Unit
 
     internal virtual void Attack()
     {
-        //target.GetComponent<Targetable>().TakeDamage(damage);
+        // If the Attacker is not ranged, hit the target now
+        if(gameObject.GetComponent<RangedAttacker>() == null)
+            target.GetComponent<Targetable>().TakeDamage(damage);
+
+        //Debug.Log(gameObject.name + " attacking " + target.name);
         attackTimer = 0f;
         animator.SetBool("isAttacking", false);
     }
