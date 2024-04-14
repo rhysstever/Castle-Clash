@@ -8,7 +8,9 @@ public class Unit : Targetable
     internal float moveSpeed, moveDirection, spawnCost;
     public float SpawnCost { get { return spawnCost; } }
     [SerializeField]
-    public Rigidbody2D rb;
+    internal Rigidbody2D rb;
+    [SerializeField]
+    private GameObject deathObject;
 
     // Start is called before the first frame update
     internal override void Start()
@@ -36,9 +38,7 @@ public class Unit : Targetable
 	{
 		base.TakeDamage(damage);
         if(health <= 0)
-		{
-            Destroy(gameObject);
-		}
+            Die();
 	}
 
 	internal virtual bool CanMove()
@@ -49,5 +49,14 @@ public class Unit : Targetable
 	internal virtual void Move()
     {
 
+    }
+
+    internal void Die()
+	{
+        GameObject deathObj = Instantiate(deathObject, gameObject.transform.position, Quaternion.identity, transform.parent);
+        deathObj.name = gameObject.name + deathObject.name;
+        if(team == Team.RightTeam)
+            deathObj.GetComponent<SpriteRenderer>().flipX = true;
+        Destroy(gameObject);
     }
 }

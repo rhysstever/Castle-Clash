@@ -173,4 +173,5 @@ MonoBehaviour:
   moveDirection: 0
   spawnCost: 6
   rb: {fileID: -2950704977503816583}
+  deathObject: {fileID: 3846721405067920919, guid: a1fc19e4fa96c3442a6a0d9fd301ac6a, type: 3}
   destination: {fileID: 0}
