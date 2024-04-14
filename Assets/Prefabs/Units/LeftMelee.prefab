@@ -177,7 +177,7 @@ MonoBehaviour:
   moveDirection: 0
   spawnCost: 3
   rb: {fileID: 3211867810142049981}
-  damage: 3
+  damage: 2
   range: 1.25
   attackSpeed: 0.75
   attackTimer: 0
