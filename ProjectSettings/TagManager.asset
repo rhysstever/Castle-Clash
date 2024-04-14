@@ -12,12 +12,12 @@ TagManager:
   - Water
   - UI
   - 
-  - LeftTeam
-  - RightTeam
-  - 
-  - 
-  - 
-  - 
+  - LeftTeamBuilding
+  - RightTeamBuilding
+  - LeftTeamUnit
+  - RightTeamUnit
+  - LeftTeamProjectile
+  - RightTeamProjectile
   - 
   - 
   - 

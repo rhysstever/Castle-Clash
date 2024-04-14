@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -2253911629886400664, guid: 35b405375b307684e92d727937fca0de, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1160356261127867848, guid: 35b405375b307684e92d727937fca0de, type: 3}
       propertyPath: m_Controller
@@ -176,10 +176,9 @@ MonoBehaviour:
   moveSpeed: 50
   moveDirection: 0
   spawnCost: 3
-  rb: {fileID: 0}
-  damage: 2
+  rb: {fileID: 3211867810142049981}
+  damage: 3
   range: 1.25
   attackSpeed: 0.75
   attackTimer: 0
-  projectileSpeed: 0
   target: {fileID: 0}

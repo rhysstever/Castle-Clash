@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2253911629886400664, guid: 09b5655098045e64bbc6de781dde310e, type: 3}
       propertyPath: m_Name
-      value: RightMelee
+      value: RightRanged
       objectReference: {fileID: 0}
     - target: {fileID: -2253911629886400664, guid: 09b5655098045e64bbc6de781dde310e, type: 3}
       propertyPath: m_Layer
@@ -19,11 +19,15 @@ PrefabInstance:
     - target: {fileID: 1160356261127867848, guid: 09b5655098045e64bbc6de781dde310e, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 8f6fdb63cc444d94eaf0f45966671a1d, type: 2}
+      objectReference: {fileID: 9100000, guid: 52f059965e3248e4d8d6f47872512b64, type: 2}
     - target: {fileID: 3626916397498700004, guid: 09b5655098045e64bbc6de781dde310e, type: 3}
       propertyPath: m_FlipX
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3626916397498700004, guid: 09b5655098045e64bbc6de781dde310e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1289273299873517197, guid: fe2d7c520a962864cb600a86dd67d912, type: 3}
     - target: {fileID: 3626916397498700004, guid: 09b5655098045e64bbc6de781dde310e, type: 3}
       propertyPath: m_SortingOrder
       value: 2
@@ -84,7 +88,7 @@ PrefabInstance:
       addedObject: {fileID: -5402905145711599487}
     - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 09b5655098045e64bbc6de781dde310e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4038188048583276311}
+      addedObject: {fileID: 1149356780698752367}
   m_SourcePrefab: {fileID: -8435245712485981826, guid: 09b5655098045e64bbc6de781dde310e, type: 3}
 --- !u!1 &257207634574452298 stripped
 GameObject:
@@ -126,8 +130,8 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 1.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5633803, y: -0.6082474}
-    oldSize: {x: 1.109375, y: 1.515625}
+    pivot: {x: 0.44705883, y: -0.826087}
+    oldSize: {x: 1.328125, y: 1.078125}
     newSize: {x: 1.109375, y: 1.515625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -163,7 +167,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 6
---- !u!114 &4038188048583276311
+--- !u!114 &1149356780698752367
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,17 +176,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 257207634574452298}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8489c9e8abdb4ac449af34d4250aeb60, type: 3}
+  m_Script: {fileID: 11500000, guid: a067741f863d8844caa119fcc5dfec2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
+  health: 4
   team: 1
-  moveSpeed: 50
+  moveSpeed: 75
   moveDirection: 0
-  spawnCost: 3
+  spawnCost: 4
   rb: {fileID: -5402905145711599487}
-  damage: 3
-  range: 1.25
-  attackSpeed: 0.75
+  damage: 1
+  range: 5
+  attackSpeed: 1.1
   attackTimer: 0
   target: {fileID: 0}
+  projectile: {fileID: 948995070957855380, guid: 120b64b5e72ba334f861f2829ff63c07, type: 3}

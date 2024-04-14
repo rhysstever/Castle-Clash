@@ -5,7 +5,7 @@ using UnityEngine;
 public class Attacker : Unit
 {
     [SerializeField]
-    internal float damage, range, attackSpeed, attackTimer, projectileSpeed;
+    internal float damage, range, attackSpeed, attackTimer;
     [SerializeField]
     internal GameObject target;
 
@@ -67,10 +67,9 @@ public class Attacker : Unit
             gameObject.transform.position.y + 1.5f  // Offset needed to match up with actual gameObject
             );
         Vector2 direction = GetTargetDirection(team);
-        LayerMask enemyLayerMask = GetLayerMask(team);
-        LayerMask onlyEnemyLayerMask = 1 << enemyLayerMask;
+        LayerMask enemyLayerMask = GetLayerMasks(team);
 
-        RaycastHit2D hit = Physics2D.Raycast(origin, direction, range, onlyEnemyLayerMask);
+        RaycastHit2D hit = Physics2D.Raycast(origin, direction, range, enemyLayerMask);
         //Debug.DrawRay(origin, direction * range);
 
         GameObject target = GetValidTarget(hit);
@@ -87,12 +86,18 @@ public class Attacker : Unit
             return Vector2.left;
     }
 
-    private LayerMask GetLayerMask(Team team)
+    private LayerMask GetLayerMasks(Team team)
     {
         if(team == Team.LeftTeam)
-            return LayerMask.NameToLayer("RightTeam");
+		{
+            return (1 << LayerMask.NameToLayer("RightTeamBuilding"))
+                | (1 << LayerMask.NameToLayer("RightTeamUnit"));
+		}
         else
-            return LayerMask.NameToLayer("LeftTeam");
+		{
+            return (1 << LayerMask.NameToLayer("LeftTeamBuilding"))
+                | (1 << LayerMask.NameToLayer("LeftTeamUnit"));
+		}
     }
 
     private GameObject GetValidTarget(RaycastHit2D hit)
@@ -123,9 +128,9 @@ public class Attacker : Unit
             && target != null;
     }
 
-    private void Attack()
+    internal virtual void Attack()
     {
-        target.GetComponent<Targetable>().TakeDamage(damage);
+        //target.GetComponent<Targetable>().TakeDamage(damage);
         attackTimer = 0f;
         animator.SetBool("isAttacking", false);
     }

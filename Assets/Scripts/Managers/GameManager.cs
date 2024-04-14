@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
     #endregion
 
     [SerializeField]
+    private GameObject leftUnitParent, rightUnitParent, leftProjectileParent, rightProjectileParent;
+    [SerializeField]
     private Spawner leftSpawner, rightSpawner;
     [SerializeField]
     private Producer leftMine, rightMine;
@@ -102,13 +104,25 @@ public class GameManager : MonoBehaviour
 
 	public void Reset()
     {
+        // Reset gold
         leftTeamGold = 0;
         rightTeamGold = 0;
 
+        // Reset buildings
         leftSpawner.Reset(baseMaxHealth);
         rightSpawner.Reset(baseMaxHealth);
         leftMine.Reset(baseMaxHealth);
         rightMine.Reset(baseMaxHealth);
+
+        // Reset parent objects
+        for(int i = leftUnitParent.transform.childCount - 1; i >= 0; i--)
+            Destroy(leftUnitParent.transform.GetChild(i).gameObject);
+        for(int i = rightUnitParent.transform.childCount - 1; i >= 0; i--)
+            Destroy(rightUnitParent.transform.GetChild(i).gameObject);
+        for(int i = leftProjectileParent.transform.childCount - 1; i >= 0; i--)
+            Destroy(leftProjectileParent.transform.GetChild(i).gameObject);
+        for(int i = rightUnitParent.transform.childCount - 1; i >= 0; i--)
+            Destroy(rightUnitParent.transform.GetChild(i).gameObject);
 
         UpdateBaseHealth();
         UIManager.instance.UpdateTeamGold(
@@ -131,6 +145,22 @@ public class GameManager : MonoBehaviour
             rightMine.TakeDamage(1000);
             ChangeMenuState(MenuState.GameEnd);
         }
+    }
+
+    public GameObject GetTeamUnitParent(Team team)
+	{
+        if(team == Team.LeftTeam)
+            return leftUnitParent;
+        else
+            return rightUnitParent;
+    }
+
+    public GameObject GetTeamProjectileParent(Team team)
+    {
+        if(team == Team.LeftTeam)
+            return leftProjectileParent;
+        else
+            return rightProjectileParent;
     }
 
     public Spawner GetTeamSpawner(Team team)

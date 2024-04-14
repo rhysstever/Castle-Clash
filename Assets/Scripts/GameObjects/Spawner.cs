@@ -92,7 +92,7 @@ public class Spawner : Building
         if(!free)
             GameManager.instance.SpendGold(team, spawnPrefab.GetComponent<Unit>().SpawnCost);
 
-        if(spawnPrefab == spawnPrefabs[2])
+        if(spawnPrefab.GetComponent<Worker>() != null)
 		{
             Vector2 workerSpawnLocation = gameObject.transform.position;
             workerSpawnLocation.y += 0.5f;
@@ -109,17 +109,15 @@ public class Spawner : Building
 
     private void SpawnUnit(GameObject spawnPrefab, Vector2 spawnPos, int currentCount) 
     {
-        Vector2 workerSpawnLocation = gameObject.transform.position;
-        workerSpawnLocation.y += 0f;
+        GameObject parent = GameManager.instance.GetTeamUnitParent(team);
 
         GameObject newUnit = Instantiate(
             spawnPrefab,
             spawnPos,
             Quaternion.identity,
-            transform.GetChild(1)
+            parent.transform
             );
         newUnit.name = spawnPrefab.name + currentCount;
-        newUnit.transform.localScale = new Vector3(0.66f, 0.66f);
     }
 
     public override void TakeDamage(float damage)
@@ -157,7 +155,5 @@ public class Spawner : Building
         workerSpawnCount = 0;
 
         UpdateSpawnLocationPointer();
-        for(int i = transform.GetChild(1).childCount - 1; i >= 0; i--)
-            Destroy(transform.GetChild(1).GetChild(i).gameObject);
     }
 }
