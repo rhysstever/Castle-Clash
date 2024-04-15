@@ -5,8 +5,10 @@ using UnityEngine;
 public class Unit : Targetable
 {
     [SerializeField]
-    internal float moveSpeed, moveDirection, spawnCost;
-    public float SpawnCost { get { return spawnCost; } }
+    internal float moveSpeed, moveDirection;
+    [SerializeField]
+    internal int spawnCost;
+    public int SpawnCost { get { return spawnCost; } }
     [SerializeField]
     internal Rigidbody2D rb;
     [SerializeField]

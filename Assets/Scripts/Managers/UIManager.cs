@@ -128,9 +128,16 @@ public class UIManager : MonoBehaviour
             rightTeamHealthBarUI.transform.localScale.y);
     }
 
-	public void UpdateTeamGold(float leftTeamGoldAmount, float rightTeamGoldAmount)
+	public void UpdateTeamGold(int leftTeamGoldAmount, int rightTeamGoldAmount)
 	{
-        leftTeamGoldText.text = ((int)leftTeamGoldAmount).ToString();
-        rightTeamGoldText.text = ((int)rightTeamGoldAmount).ToString();
+        if(leftTeamGoldAmount > 99)
+			leftTeamGoldText.text = "99+";
+        else 
+            leftTeamGoldText.text = leftTeamGoldAmount.ToString();
+
+        if(rightTeamGoldAmount > 99)
+            rightTeamGoldText.text = "99+";
+        else
+            rightTeamGoldText.text = rightTeamGoldAmount.ToString();
     }
 }

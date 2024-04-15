@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Producer leftMine, rightMine;
     [SerializeField]
-    private float leftTeamGold, rightTeamGold;
+    private int leftTeamGold, rightTeamGold;
     [SerializeField]
     private float baseMaxHealth;
     public float BaseMaxHealth { get { return baseMaxHealth; } }
@@ -179,7 +179,7 @@ public class GameManager : MonoBehaviour
             return rightMine;
     }
 
-    public float GetTeamGold(Team team)
+    public int GetTeamGold(Team team)
     {
         if(team == Team.LeftTeam)
             return leftTeamGold;
@@ -187,7 +187,7 @@ public class GameManager : MonoBehaviour
             return rightTeamGold;
     }
 
-    public void AddGold(Team team, float amount)
+    public void AddGold(Team team, int amount)
 	{
         if(team == Team.LeftTeam)
 		{
@@ -208,7 +208,7 @@ public class GameManager : MonoBehaviour
         );
     }
 
-    public void SpendGold(Team team, float amount)
+    public void SpendGold(Team team, int amount)
     {
         if(team == Team.LeftTeam)
 		{

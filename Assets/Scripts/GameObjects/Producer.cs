@@ -7,7 +7,9 @@ public class Producer : Building
     [SerializeField]
     private GameObject producedResource;
     [SerializeField]
-    private float produceRate, produceAmountPerWorker;
+    private float produceRate;
+    [SerializeField]
+    private int produceAmountPerWorker;
     [SerializeField]
     private Vector2 minBounds, maxBounds;
 
@@ -49,7 +51,7 @@ public class Producer : Building
 	{
         if(CanProduce())
 		{
-            float productionAmount = workerCount * produceAmountPerWorker;
+            int productionAmount = workerCount * produceAmountPerWorker;
             produceTimer = 0f;
             GameManager.instance.AddGold(team, productionAmount);
         }
