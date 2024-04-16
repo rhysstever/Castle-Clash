@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
         {
             case MenuState.MainMenu:
                 menuStates.Clear();
-                Reset();
+                ResetAll();
                 break;
             case MenuState.Controls:
                 break;
@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour
             case MenuState.Pause:
                 break;
             case MenuState.GameEnd:
+                ClearAllProjectiles();
                 break;
         }
 
@@ -102,33 +103,49 @@ public class GameManager : MonoBehaviour
         ChangeMenuState(menuStates.Peek());
     }
 
-	public void Reset()
+	private void ResetAll()
     {
-        // Reset gold
+        ResetGold();
+        ResetBuildings();
+        ClearAllUnits();
+        ClearAllProjectiles();
+    }
+
+	private void ResetGold()
+    {
         leftTeamGold = 0;
         rightTeamGold = 0;
-
-        // Reset buildings
-        leftSpawner.Reset(baseMaxHealth);
-        rightSpawner.Reset(baseMaxHealth);
-        leftMine.Reset(baseMaxHealth);
-        rightMine.Reset(baseMaxHealth);
-
-        // Reset parent objects
-        for(int i = leftUnitParent.transform.childCount - 1; i >= 0; i--)
-            Destroy(leftUnitParent.transform.GetChild(i).gameObject);
-        for(int i = rightUnitParent.transform.childCount - 1; i >= 0; i--)
-            Destroy(rightUnitParent.transform.GetChild(i).gameObject);
-        for(int i = leftProjectileParent.transform.childCount - 1; i >= 0; i--)
-            Destroy(leftProjectileParent.transform.GetChild(i).gameObject);
-        for(int i = rightUnitParent.transform.childCount - 1; i >= 0; i--)
-            Destroy(rightUnitParent.transform.GetChild(i).gameObject);
-
-        UpdateBaseHealth();
         UIManager.instance.UpdateTeamGold(
             GetTeamGold(Team.LeftTeam),
             GetTeamGold(Team.RightTeam)
         );
+    }
+
+    private void ResetBuildings()
+    {
+        leftSpawner.Reset(baseMaxHealth);
+        rightSpawner.Reset(baseMaxHealth);
+        leftMine.Reset(baseMaxHealth);
+        rightMine.Reset(baseMaxHealth);
+        UpdateBaseHealth();
+    }
+
+    private void ClearAllUnits()
+    {
+        // Reset all units
+        for(int i = leftUnitParent.transform.childCount - 1; i >= 0; i--)
+            Destroy(leftUnitParent.transform.GetChild(i).gameObject);
+        for(int i = rightUnitParent.transform.childCount - 1; i >= 0; i--)
+            Destroy(rightUnitParent.transform.GetChild(i).gameObject);
+    }
+
+    private void ClearAllProjectiles()
+    {
+        // Reset all projectiles
+        for(int i = leftProjectileParent.transform.childCount - 1; i >= 0; i--)
+            Destroy(leftProjectileParent.transform.GetChild(i).gameObject);
+        for(int i = rightProjectileParent.transform.childCount - 1; i >= 0; i--)
+            Destroy(rightProjectileParent.transform.GetChild(i).gameObject);
     }
 
 	public void UpdateBaseHealth()
