@@ -50,7 +50,8 @@ public class EnemyComputerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GameManager.instance.CurrentMenuState == MenuState.Game)
+        if(GameManager.instance.CurrentMenuState == MenuState.Game
+            && GameManager.instance.IsSinglePlayer)
         {
             int currentGold = GameManager.instance.GetTeamGold(computerTeam);
             if(currentGold >= mostExpensiveUnit)
@@ -60,7 +61,8 @@ public class EnemyComputerManager : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-        if(GameManager.instance.CurrentMenuState == MenuState.Game)
+        if(GameManager.instance.CurrentMenuState == MenuState.Game
+            && GameManager.instance.IsSinglePlayer)
         {
             currentChangeLaneTimer += Time.deltaTime;
             if(currentChangeLaneTimer >= timeToChangeLane)

@@ -9548,7 +9548,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -15, y: -0}
+  m_AnchoredPosition: {x: -15, y: 0}
   m_SizeDelta: {x: 100, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &516407063
@@ -10387,7 +10387,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 30, y: -0}
+  m_AnchoredPosition: {x: 30, y: 0}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &638772252
@@ -10779,7 +10779,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 5, y: -0}
+  m_AnchoredPosition: {x: 5, y: 0}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &720821948
@@ -22235,6 +22235,7 @@ MonoBehaviour:
   rightTeamHealthBarUI: {fileID: 1457089979}
   leftTeamGoldText: {fileID: 1007962188}
   rightTeamGoldText: {fileID: 728792881}
+  rightTeamSpawnButtonsParent: {fileID: 1992640122}
   resumeGameButton: {fileID: 1737942233}
   pauseToControlsButton: {fileID: 1843292973}
   pauseToMainMenuButton: {fileID: 21886272}

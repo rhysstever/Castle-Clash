@@ -39,13 +39,15 @@ public class UIManager : MonoBehaviour
     private GameObject controlsMenu1, controlsMenu2;
     [SerializeField]
     private Button controlsNextButton, controlsPreviousMenuButton;
-    // Game Top UI Elements
+    // Game UI Elements
     [SerializeField]
     private Button settingsButton;
     [SerializeField]
     private GameObject leftTeamHealthBarUI, rightTeamHealthBarUI;
     [SerializeField]
     private TMP_Text leftTeamGoldText, rightTeamGoldText;
+    [SerializeField]
+    private GameObject rightTeamSpawnButtonsParent;
     // Pause Menu Elements
     [SerializeField]
     private Button resumeGameButton, pauseToControlsButton, pauseToMainMenuButton;
@@ -107,6 +109,8 @@ public class UIManager : MonoBehaviour
                 break;
             case MenuState.Game:
                 gameUIParent.SetActive(true);
+                // Hide the Right team's spawning buttons based on if it is a 1 or 2 player game
+                rightTeamSpawnButtonsParent.SetActive(!GameManager.instance.IsSinglePlayer);
                 break;
             case MenuState.Pause:
                 pauseUIParent.SetActive(true);
