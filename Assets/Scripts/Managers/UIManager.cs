@@ -27,10 +27,13 @@ public class UIManager : MonoBehaviour
     private Canvas canvas;
     // UI Parent Objects
     [SerializeField]
-    private GameObject mainMenuUIParent, controlsUIParent, gameUIParent, pauseUIParent, gameEndUIParent;
+    private GameObject mainMenuUIParent, setupUIParent, controlsUIParent, gameUIParent, pauseUIParent, gameEndUIParent;
     // Main Menu Elements
     [SerializeField]
-    private Button playButton, controlsButton, quitGameButton;
+    private Button playButton, quitGameButton;
+    // Setup Elements
+    [SerializeField]
+    private Button setupToControlsButton, onePlayerButton, twoPlayersButton, setupPreviousMenuButton;
     // Controls Elements
     [SerializeField]
     private GameObject controlsMenu1, controlsMenu2;
@@ -67,9 +70,12 @@ public class UIManager : MonoBehaviour
 
     private void SetupButtons()
     {
-        playButton.onClick.AddListener(() => GameManager.instance.ChangeMenuState(MenuState.Game));
-        controlsButton.onClick.AddListener(() => GameManager.instance.ChangeMenuState(MenuState.Controls));
+        playButton.onClick.AddListener(() => GameManager.instance.ChangeMenuState(MenuState.Setup));
         quitGameButton.onClick.AddListener(() => Application.Quit());
+        setupToControlsButton.onClick.AddListener(() => GameManager.instance.ChangeMenuState(MenuState.Controls));
+        onePlayerButton.onClick.AddListener(() => GameManager.instance.SetupGame(1));
+        twoPlayersButton.onClick.AddListener(() => GameManager.instance.SetupGame(2));
+        setupPreviousMenuButton.onClick.AddListener(() => GameManager.instance.PreviousMenuState());
         controlsNextButton.onClick.AddListener(() => IncrementControlsMenu());
         controlsPreviousMenuButton.onClick.AddListener(() => GameManager.instance.PreviousMenuState());
         settingsButton.onClick.AddListener(() => GameManager.instance.ChangeMenuState(MenuState.Pause));
@@ -90,6 +96,9 @@ public class UIManager : MonoBehaviour
         {
             case MenuState.MainMenu:
                 mainMenuUIParent.SetActive(true);
+                break;
+            case MenuState.Setup:
+                setupUIParent.SetActive(true);
                 break;
             case MenuState.Controls:
                 controlsUIParent.SetActive(true);

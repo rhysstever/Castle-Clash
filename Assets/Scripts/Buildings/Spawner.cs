@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Spawner : Building
@@ -12,10 +13,11 @@ public class Spawner : Building
     private List<KeyCode> spawnKeys;
     [SerializeField]
     private List<GameObject> spawnPrefabs;
+    private Dictionary<KeyCode, GameObject> unitPrefabs;
+    public List<GameObject> UnitPrefabs { get { return spawnPrefabs; } }
 
     private int currentSpawnLane;
     private float spawnLocationPointerPosXOffset;
-    private int attackerSpawnCount, workerSpawnCount;
 
     // Start is called before the first frame update
     internal override void Start()
@@ -23,13 +25,15 @@ public class Spawner : Building
         base.Start();
         health = GameManager.instance.BaseMaxHealth;
 
+        unitPrefabs = new Dictionary<KeyCode, GameObject>();
+        for(int i = 0; i < spawnKeys.Count; i++)
+            unitPrefabs.Add(spawnKeys[i], spawnPrefabs[i]);
+
         spawnLocationPointerPosXOffset = 2.75f;
         if(team == Team.RightTeam)
             spawnLocationPointerPosXOffset *= -1;
         
         currentSpawnLane = 1;
-        attackerSpawnCount = 0;
-        workerSpawnCount = 0;
 
         UpdateSpawnLocationPointer();
     }
@@ -38,34 +42,37 @@ public class Spawner : Building
     internal override void Update()
     {
         base.Update();
-        ChangeSpawnLocation();
 
-        for(int i = 0; i < spawnKeys.Count; i++)
+        if(!GameManager.instance.IsSinglePlayer
+            || (GameManager.instance.IsSinglePlayer
+            && EnemyComputerManager.instance.computerTeam != team))
         {
-            if(Input.GetKeyDown(spawnKeys[i]) 
-                && CanSpawn(spawnPrefabs[i]))
-                Spawn(spawnPrefabs[i]);
+            CheckChangeSpawnLaneInput();
+
+            for(int i = 0; i < spawnKeys.Count; i++)
+            {
+                if(Input.GetKeyDown(spawnKeys[i])
+                    && CanSpawn(spawnPrefabs[i]))
+                    Spawn(spawnPrefabs[i]);
+            }
         }
     }
 
-    /// <summary>
-    /// Changes the selected spawn location (lane) with 'W' and 'S' keys
-    /// </summary>
-    private void ChangeSpawnLocation()
+    private void CheckChangeSpawnLaneInput()
     {
-        int spawnLocation = currentSpawnLane;
         if(Input.GetKeyDown(moveLaneUpInputKey))
-        {
-            spawnLocation--;
-            currentSpawnLane = Mathf.Clamp(spawnLocation, 0, 2);
-            UpdateSpawnLocationPointer();
-        }
+            ChangeSpawnLane(-1);
         else if(Input.GetKeyDown(moveLaneDownInputKey))
-        {
-            spawnLocation++;
-            currentSpawnLane = Mathf.Clamp(spawnLocation, 0, 2);
-            UpdateSpawnLocationPointer();
-        }
+            ChangeSpawnLane(1);
+    }
+
+    public void ChangeSpawnLane(int moveDirection)
+    {
+        moveDirection = Mathf.Clamp(moveDirection, -1, 1);
+
+        int newSpawnLocation = currentSpawnLane + moveDirection;
+        currentSpawnLane = Mathf.Clamp(newSpawnLocation, 0, 2);
+        UpdateSpawnLocationPointer();
     }
 
     /// <summary>
@@ -87,37 +94,31 @@ public class Spawner : Building
             && GameManager.instance.GetTeamGold(team) >= spawnPrefab.GetComponent<Unit>().SpawnCost;
     }
 
-    private void Spawn(GameObject spawnPrefab, bool free = false)
+    public void Spawn(int indexOfUnit, bool isFree = false)
+	{
+        GameObject spawnPrefab = unitPrefabs.ElementAt(indexOfUnit).Value;
+        Spawn(spawnPrefab, isFree);
+	}
+
+    private void Spawn(GameObject spawnPrefab, bool isFree = false)
     {
-        if(!free)
+        if(!isFree)
             GameManager.instance.SpendGold(team, spawnPrefab.GetComponent<Unit>().SpawnCost);
 
+        Vector2 spawnLocation = spawnLocationToPos();
         if(spawnPrefab.GetComponent<Worker>() != null)
 		{
-            Vector2 workerSpawnLocation = gameObject.transform.position;
-            workerSpawnLocation.y += 0.5f;
-            
-            SpawnUnit(spawnPrefab, workerSpawnLocation, workerSpawnCount);
-            workerSpawnCount++;
+            spawnLocation = gameObject.transform.position;
+            spawnLocation.y += 0.5f;
         }
-        else
-		{
-            SpawnUnit(spawnPrefab, spawnLocationToPos(), attackerSpawnCount);
-            attackerSpawnCount++;
-        } 
-    }
-
-    private void SpawnUnit(GameObject spawnPrefab, Vector2 spawnPos, int currentCount) 
-    {
         GameObject parent = GameManager.instance.GetTeamUnitParent(team);
 
         GameObject newUnit = Instantiate(
             spawnPrefab,
-            spawnPos,
+            spawnLocation,
             Quaternion.identity,
             parent.transform
-            );
-        newUnit.name = spawnPrefab.name + currentCount;
+        );
     }
 
     public override void TakeDamage(float damage)
@@ -141,18 +142,10 @@ public class Spawner : Building
         return pos;
     }
 
-    public void SpawnFirstBuilder()
-    {
-        // Spawn a worker for free
-        Spawn(spawnPrefabs[2], true);
-    }
-
 	public override void Reset(float health)
 	{
 		base.Reset(health);
         currentSpawnLane = 1;
-        attackerSpawnCount = 0;
-        workerSpawnCount = 0;
 
         UpdateSpawnLocationPointer();
     }
