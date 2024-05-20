@@ -70,13 +70,16 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void ChangeMenuState(MenuState newMenuState)
+    public void ChangeMenuState(MenuState newMenuState, bool isGoingBack = false)
 	{
         switch(newMenuState)
         {
             case MenuState.MainMenu:
-                menuStates.Clear();
-                ResetAll();
+                if(!isGoingBack)
+                {
+                    menuStates.Clear();
+                    ResetAll();
+                }
                 break;
             case MenuState.Setup:
                 break;
@@ -100,15 +103,17 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        menuStates.Push(newMenuState);
+        if(!isGoingBack)
+            menuStates.Push(newMenuState);
+
         currentMenuState = menuStates.Peek();
         UIManager.instance.ChangeUIState(newMenuState);
 	}
 
     public void PreviousMenuState()
-	{
+    {
         menuStates.Pop();
-        ChangeMenuState(menuStates.Peek());
+        ChangeMenuState(menuStates.Peek(), true);
     }
 
     public void SetupGame(int playerCount)
