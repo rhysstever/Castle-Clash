@@ -22,11 +22,8 @@ public class Skull : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-        if(GameManager.instance.CurrentMenuState == MenuState.Game)
-        {
-            timeAlive += Time.deltaTime;
-            if(timeAlive >= maxTimeAlive)
-                Destroy(gameObject);
-        }
-	}
+        timeAlive += Time.deltaTime;
+        if(timeAlive >= maxTimeAlive)
+            Destroy(gameObject);
+    }
 }

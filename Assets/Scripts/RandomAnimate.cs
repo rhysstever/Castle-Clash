@@ -26,15 +26,12 @@ public class RandomAnimate : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(GameManager.instance.CurrentMenuState == MenuState.Game)
+        currentTime += Time.deltaTime;
+        if(currentTime >= timeToAnimate)
         {
-            currentTime += Time.deltaTime;
-            if(currentTime >= timeToAnimate)
-            {
-                animator.SetTrigger(triggerName);
-                currentTime = 0;
-                SetNewAnimateTime();
-            }
+            animator.SetTrigger(triggerName);
+            currentTime = 0;
+            SetNewAnimateTime();
         }
     }
 
