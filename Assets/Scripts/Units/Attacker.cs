@@ -74,7 +74,7 @@ public class Attacker : Unit
 
         GameObject target = GetValidTarget(hit);
 
-        animator.SetBool("isAttacking", target != null);
+        animator.SetBool("isAttacking", CanAttack());
         return target;
     }
 
